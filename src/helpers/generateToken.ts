@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/constants";
 import ErrorHandler from "../utils/ErrorHandler";
+
 import { Response } from "express";
+import { JWT_SECRET } from "../config/constants";
 
 const generateToken = (res: Response, payload: any) => {
   if (!JWT_SECRET) {

@@ -1,5 +1,6 @@
-import winston from "winston";
 import { StreamOptions } from "morgan";
+
+import winston from "winston";
 
 const logger = winston.createLogger({
   level: "info",

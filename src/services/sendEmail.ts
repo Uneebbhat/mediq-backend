@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+
 import { NODE_PASS, NODE_SERVICE, NODE_USER } from "../config/constants";
 
 const sendEmail = async (

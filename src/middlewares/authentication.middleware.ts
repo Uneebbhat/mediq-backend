@@ -1,7 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import ErrorHandler from "../utils/ErrorHandler";
-import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/constants";
+import { NextFunction, Request, Response } from "express";
+
+import jwt from "jsonwebtoken";
+import ErrorHandler from "../utils/ErrorHandler";
 
 interface JwtPayload {
   userId: string;

@@ -1,7 +1,8 @@
-import { v2 as cloudinary } from "cloudinary";
-import { Response } from "express";
 import ErrorHandler from "../utils/ErrorHandler";
 import cloudinaryConfig from "../config/cloudinaryConfig";
+
+import { Response } from "express";
+import { v2 as cloudinary } from "cloudinary";
 
 cloudinaryConfig();
 
