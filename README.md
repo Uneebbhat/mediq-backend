@@ -1,17 +1,22 @@
-# Backend Template
+# MediQ Backend
 
-A robust Node.js backend template built with TypeScript and Express. This template is designed for scalability and comes pre-configured with a range of essential features like authentication, file uploads, email handling, caching, and MongoDB integration. Save time by cloning this template and jump-starting your backend development.
+Backend API for **MediQ** — a private clinic management platform for individual doctors and small clinics.  
+Built with **Node.js**, **TypeScript**, and **Express**, it provides secure doctor-patient linking, appointment booking, token-based queue management, real-time notifications, and MongoDB integration for scalable healthcare solutions.
 
-## Features
+## 🚀 Features
 
-- **Authentication**: Secure user authentication using `bcrypt` and `jsonwebtoken`.
+- **Authentication**: Secure signup/login for doctors and patients using `bcrypt` and `jsonwebtoken`.
+- **Doctor–Patient Linking**: Connect via unique Doctor ID, QR code, or invite link.
+- **Appointments**: Book, approve/reject, and manage patient appointments with automatic token assignment.
+- **Token Queue System**: Start/stop, skip, reset queues with real-time status updates.
+- **Notifications**: Real-time push notifications using Firebase Cloud Messaging (FCM).
 - **File Uploads**: Integrated file upload functionality using `multer` and `cloudinary`.
-- **Email Sending**: Easily send emails using `nodemailer`.
-- **Caching**: Use `node-cache` for efficient caching.
-- **MongoDB Integration**: Database operations simplified with `mongoose`.
+- **Email Sending**: Send appointment confirmations, reminders, and updates via `nodemailer`.
+- **Caching**: Improve performance with `node-cache`.
+- **MongoDB Integration**: Efficient and structured data handling with `mongoose`.
 - **Security**: Enhanced with `helmet` and `cors`.
 - **Rate Limiting**: Protect APIs with `express-rate-limit`.
-- **Input Validation**: Validate requests using `joi`.
+- **Input Validation**: Ensure data integrity with `joi`.
 
 ## Installation
 
