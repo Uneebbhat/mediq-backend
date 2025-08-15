@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "mediq-backend",
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
@@ -36,10 +36,10 @@
   ],
   "author": "Uneeb Bhatti",
   "license": "ISC",
-  "description": "A robust Node.js backend template built with TypeScript and Express. Features include authentication, file uploads, email sending, caching, and MongoDB integration. Perfect for building scalable REST APIs.",
+  "description": "Backend API for MediQ — a private clinic management platform for individual doctors. Built with Node.js, TypeScript, and Express, it features secure doctor-patient linking, appointment booking, token-based queue management, real-time notifications, and MongoDB integration for scalable healthcare solutions.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Uneebbhat/backend.git"
+    "url": "https://github.com/Uneebbhat/mediq-backend.git"
   },
   "dependencies": {
     "axios": "^1.11.0",
