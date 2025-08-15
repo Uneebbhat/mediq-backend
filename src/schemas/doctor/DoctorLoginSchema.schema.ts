@@ -1,7 +1,7 @@
 import Joi from "joi";
 
-const UserLoginSchema = Joi.object({
-  email: Joi.string()
+const DoctorLoginSchema = Joi.object({
+  doctorEmail: Joi.string()
     .required()
     .email({ tlds: { allow: false } })
     .lowercase()
@@ -26,4 +26,4 @@ const UserLoginSchema = Joi.object({
     }),
 });
 
-export default UserLoginSchema;
+export default DoctorLoginSchema;

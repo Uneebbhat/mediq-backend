@@ -1,25 +1,42 @@
-// Add all interfaces here and then export them to use
-
 import { Types } from "mongoose";
 
 // User Interface
 export enum Role {
-  user = "user",
-  admin = "admin",
+  doctor = "doctor",
+  patient = "patient",
 }
 
-export interface IUser {
-  // Add more fields as needed
-  name: string;
-  email: string;
+export interface IDoctor {
+  docId: string;
+  googleId?: string;
+  docProfileImg: string;
+  doctorName: string;
+  doctorEmail: string;
   password: string;
-  role: Role;
+  doctorPhoneNumber: string;
+  role: Role.doctor;
 }
 
-export interface IUserDTO {
-  // Add more fields as needed
+export interface IDoctorDTO {
   _id: Types.ObjectId;
-  name: string;
-  email: string;
-  role: Role;
+  docId: string;
+  googleId?: string;
+  docProfileImg: string;
+  doctorName: string;
+  doctorEmail: string;
+  password: string;
+  doctorPhoneNumber: string;
+  role: Role.doctor;
+}
+
+export interface IOTP extends Document {
+  otpCode: string;
+  doctorId: Types.ObjectId;
+  expiresAt: Date;
+  createdAt: Date;
+}
+
+export interface IOTPCode {
+  otpCode: string;
+  doctorId: string;
 }

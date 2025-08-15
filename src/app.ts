@@ -1,14 +1,15 @@
-import express, { Application, Request, Response } from "express";
 import { morganStream } from "./utils/logger";
+import express, { Application, Request, Response } from "express";
+
 import cors from "cors";
+import chalk from "chalk";
 import helmet from "helmet";
 import morgan from "morgan";
-import chalk from "chalk";
-import rateLimit from "express-rate-limit";
 import cookieParser from "cookie-parser";
+import rateLimit from "express-rate-limit";
 import dbConnect from "./services/dbConnect";
-import userRoutes from "./routes/userRoutes.routes";
 import ErrorHandler from "./utils/ErrorHandler";
+import doctorRoutes from "./routes/doctor/doctorRoutes.routes";
 
 const app: Application = express();
 
@@ -70,7 +71,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
-app.use("/api", userRoutes);
+app.use("/api", doctorRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello");

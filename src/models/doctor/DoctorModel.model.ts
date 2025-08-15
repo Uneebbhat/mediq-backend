@@ -1,15 +1,18 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { IUser, Role } from "../interface/index";
+import { IDoctor, Role } from "../../interface/index";
 
-const UserModel: Schema<IUser> = new Schema(
+const DoctorModel: Schema<IDoctor> = new Schema(
   {
-    name: {
+    docProfileImg: {
+      type: String,
+    },
+    doctorName: {
       type: String,
       required: [true, "Name is required"],
       minlength: [2, "Name must be at least 2 characters long"],
       maxlength: [50, "Name cannot exceed 50 characters"],
     },
-    email: {
+    doctorEmail: {
       type: String,
       required: [true, "Email is required"],
       unique: true,
@@ -24,12 +27,16 @@ const UserModel: Schema<IUser> = new Schema(
     },
     role: {
       type: String,
-      default: Role.user,
+      default: Role.doctor,
+    },
+    googleId: {
+      type: String,
+      default: "",
     },
   },
   { timestamps: true }
 );
 
-const User: Model<IUser> = mongoose.model<IUser>("User", UserModel);
+const Doctor: Model<IDoctor> = mongoose.model<IDoctor>("User", DoctorModel);
 
-export default User;
+export default Doctor;
