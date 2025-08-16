@@ -1,9 +1,9 @@
 import mongoose, { Schema, Model } from "mongoose";
-import { IDoctor, Role } from "../../interface/index";
+import { IDoctor, Role } from "../../interface/DoctorInterface";
 
 const DoctorModel: Schema<IDoctor> = new Schema(
   {
-    docProfileImg: {
+    avatar: {
       type: String,
     },
     doctorName: {
