@@ -1,10 +1,12 @@
 import { morganStream } from "./utils/logger";
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 
 import cors from "cors";
 import chalk from "chalk";
 import helmet from "helmet";
 import morgan from "morgan";
+import "./services/instrument";
+import * as Sentry from "@sentry/node";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import dbConnect from "./services/dbConnect";
@@ -23,8 +25,6 @@ const morganFormat = (
   req: Request,
   res: Response
 ): string => {
-  const status = Number(tokens.status(req, res));
-
   return [
     // IP - green
     chalk.green(tokens["remote-addr"](req, res) || ""),
@@ -77,8 +77,24 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
+// ✅ Test route for Sentry
+app.get(
+  "/debug-sentry",
+  function mainHandler(req: Request, res: Response, next: NextFunction) {
+    next(new Error("My first Sentry error!")); // Pass error to Express pipeline
+  }
+);
+
+// Sentry Error handler
+
+app.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
+
 app.all("/*splat", (req: Request, res: Response) => {
   ErrorHandler.send(res, 404, `The URL ${req.originalUrl} doesn't exist`);
 });
+
+Sentry.setupExpressErrorHandler(app);
 
 export default app;

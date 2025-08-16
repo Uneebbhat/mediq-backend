@@ -9,15 +9,21 @@ import Doctor from "../../models/doctor/DoctorModel.model";
 import DoctorModel from "../../models/doctor/DoctorModel.model";
 import DoctorLoginSchema from "../../schemas/doctor/DoctorLoginSchema.schema";
 import DoctorSignupSchema from "../../schemas/doctor/DoctorSignupSchema.schema";
+import OTPVerificationSchema from "../../schemas/doctor/OTPVerificationSchema.schema";
 
 import { Request, Response } from "express";
+import { CLIENT_ID } from "../../config/constants";
+import { OAuth2Client } from "google-auth-library";
 import {
   comparePassword,
   hashPassword,
 } from "../../helpers/passwordEncryptionDecryption";
-import { IDoctor, IOTPCode } from "../../interface";
+import { IOTPCode } from "../../interface/OTPInterface";
+import { IDoctor } from "../../interface/DoctorInterface";
 import { welcomeEmail } from "../../templates/emails/welcomeEmail";
-import OTPVerificationSchema from "../../schemas/doctor/OTPVerificationSchema.schema";
+
+const client = new OAuth2Client(CLIENT_ID);
+console.log(CLIENT_ID);
 
 export const doctorSignup = async (
   req: Request,
@@ -192,6 +198,67 @@ export const doctorLogin = async (
 
       ResponseHandler.send(res, 200, "Login successful", userDTO!);
     }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error(`Error Stack: ${error.stack}`);
+
+      ErrorHandler.send(res, 500, `Internal Server Error: ${error.message}`);
+    } else {
+      console.error(`Unknown error occurred`, error);
+
+      ErrorHandler.send(res, 500, `An unknown error occurred`);
+    }
+  }
+};
+
+export const doctorGoogleLogin = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { idToken } = req.body;
+    if (!idToken) {
+      ErrorHandler.send(res, 400, "ID Token is required");
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken,
+      audience: CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    if (!payload) {
+      ErrorHandler.send(res, 401, "Invalid Google token");
+    }
+
+    const googleId = payload?.sub!;
+    const doctorEmail = payload?.email!;
+    const doctorName = payload?.name!;
+    const picture = payload?.picture ?? null;
+
+    if (!payload?.email_verified) {
+      ErrorHandler.send(res, 403, "Email not verified by Google");
+    }
+
+    let doctor = await DoctorModel.findOne({ googleId });
+    if (!doctor) {
+      doctor = await DoctorModel.create({
+        doctorName,
+        doctorEmail,
+        googleId,
+        avatar: picture,
+        role: "doctor",
+      });
+    }
+
+    const token = generateToken(res, doctor);
+
+    const doctorDTO = new DoctorDTO(doctor);
+
+    ResponseHandler.send(res, 200, "Google login successfull", {
+      doctorDTO,
+      token,
+    });
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error(`Error Stack: ${error.stack}`);
