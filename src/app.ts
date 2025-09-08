@@ -1,6 +1,3 @@
-import { morganStream } from "./utils/logger";
-import express, { Application, NextFunction, Request, Response } from "express";
-
 import cors from "cors";
 import chalk from "chalk";
 import helmet from "helmet";
@@ -12,6 +9,9 @@ import rateLimit from "express-rate-limit";
 import dbConnect from "./services/dbConnect";
 import ErrorHandler from "./utils/ErrorHandler";
 import doctorRoutes from "./routes/doctor/doctorRoutes.routes";
+
+import { morganStream } from "./utils/logger";
+import express, { Application, NextFunction, Request, Response } from "express";
 
 const app: Application = express();
 
